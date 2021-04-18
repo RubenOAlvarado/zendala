@@ -1,0 +1,164 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Address {
+  """Customer address first line (street and ext. number)"""
+  line1: String!
+
+  """
+  Customer address second line (optional - delgation or municipality or town)
+  """
+  line2: String
+
+  """Customer address line 3 (optional - suburb or colony)"""
+  line3: String
+
+  """Customer postal code"""
+  postal_code: String!
+
+  """Customer state address"""
+  state: String!
+
+  """Customer city address"""
+  city: String!
+
+  """Customer country code (ex: MX, US)"""
+  country_code: String!
+}
+
+type Customer {
+  """Customer mongo id"""
+  _id: String!
+
+  """Customer name"""
+  name: String!
+
+  """Customer lastname (optional)"""
+  last_name: String
+
+  """Customer email"""
+  email: String!
+
+  """Check if the customer needs an account in openpay"""
+  requires_account: Boolean
+
+  """Customer phone number (optional)"""
+  phone_number: String
+
+  """Customer address object (optional)"""
+  address: Address
+}
+
+type Store {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  customers: [Customer!]!
+  customer(id: Int!): Customer!
+  stores(
+    """Latitude where will look the stores"""
+    lat: Float!
+
+    """Longitude where will look the stores"""
+    lon: Float!
+
+    """Radio kilometers distance of the search"""
+    radio: Float!
+
+    """Bill amount"""
+    amount: Float!
+  ): [Store!]!
+}
+
+type Mutation {
+  createCustomer(createCustomerInput: CreateCustomerInput!): Customer!
+  updateCustomer(updateCustomerInput: UpdateCustomerInput!): Customer!
+  removeCustomer(id: Int!): Customer!
+  createChargeInStore(createChargeInput: CreateChargeInput!): Store!
+}
+
+input CreateCustomerInput {
+  """Customer name"""
+  name: String!
+
+  """Customer last name (it is optional)"""
+  last_name: String
+
+  """Customer email"""
+  email: String!
+
+  """Customer needs an account? (true if so, default false)"""
+  requires_account: Boolean
+
+  """Customer phone number (it is optional)"""
+  phone_number: String
+
+  """Customer address (is optional)"""
+  address: AddressInput
+}
+
+input AddressInput {
+  """Customer address first line (street and ext. number)"""
+  line1: String!
+
+  """
+  Customer address second line (optional - delgation or municipality or town)
+  """
+  line2: String
+
+  """Customer address line 3 (optional - suburb or colony)"""
+  line3: String
+
+  """Customer postal code"""
+  postal_code: String!
+
+  """Customer state address"""
+  state: String!
+
+  """Customer city address"""
+  city: String!
+
+  """Customer country code (ex: MX, US)"""
+  country_code: String = "MX"
+}
+
+input UpdateCustomerInput {
+  """Customer name"""
+  name: String
+
+  """Customer last name (it is optional)"""
+  last_name: String
+
+  """Customer email"""
+  email: String
+
+  """Customer needs an account? (true if so, default false)"""
+  requires_account: Boolean
+
+  """Customer phone number (it is optional)"""
+  phone_number: String
+
+  """Customer address (is optional)"""
+  address: AddressInput
+  id: Int!
+}
+
+input CreateChargeInput {
+  """payment method, by default it is store"""
+  method: String = "store"
+
+  """Charge amount"""
+  amount: Float!
+
+  """Charge description"""
+  description: String!
+
+  """Due date for the payment"""
+  due_date: String!
+
+  """customerID (optional)"""
+  customer: String!
+}
